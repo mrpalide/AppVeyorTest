@@ -95,3 +95,4 @@ for:
     before_deploy:
       - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
     deploy_script:
+      - echo "Complete!"
