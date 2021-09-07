@@ -111,4 +111,4 @@ for:
       - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
       # - bash ./ci_scripts/install-kubectl-test.sh && make docker-push-test && make deploy-test
     build_script:
-      - echo "Build Complete"
+      - echo "Build Complete Two"
