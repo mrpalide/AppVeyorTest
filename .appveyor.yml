@@ -81,6 +81,7 @@ for:
   #     - make e2e-clean
       
   - # Linux Deploy (Master)
+    build: off
     matrix:
       only:
         - job_name: LinuxDeployMaster
@@ -95,6 +96,7 @@ for:
       - bash ./ci_scripts/install-kubectl.sh && bash ./docker/docker_build.sh latest && bash ./docker/docker_push.sh latest && make deploy
   
   - # Linux Deploy (Develop)
+    build: off
     matrix:
       only:
         - job_name: LinuxDeployDevelop
