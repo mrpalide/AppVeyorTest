@@ -12,10 +12,7 @@ environment:
   # - job_name: Windows
   #   appveyor_build_worker_image: Visual Studio 2019
   #   GOARCH: amd64
-  - job_name: LinuxDeployMaster
-    appveyor_build_worker_image: ubuntu1804
-    GOARCH: amd64
-  - job_name: LinuxDeployDevelop
+  - job_name: LinuxDeploy
     appveyor_build_worker_image: ubuntu1804
     GOARCH: amd64
 for:
@@ -79,36 +76,22 @@ for:
   #     - make e2e-test
   #   after_build:
   #     - make e2e-clean
-      
-  - # Linux Deploy (Master)
-    build: off
-    matrix:
-      only:
-        - job_name: LinuxDeployMaster
-    branches:
-      only:
-        - master
-    deploy:
-      provider: Script
-      on:
-        branch: master
-    deploy_script:
-      - bash ./ci_scripts/install-kubectl.sh && bash ./docker/docker_build.sh latest && bash ./docker/docker_push.sh latest && make deploy
   
   - # Linux Deploy (Develop)
     build: off
     matrix:
       only:
-        - job_name: LinuxDeployDevelop
+        - job_name: LinuxDeploy
     branches:
       only:
         - develop
+        - master
     deploy:
       provider: Script
       on:
-        branch: develop
+        branch: 
+          - master
+          - develop
     before_deploy:
       - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-      # - bash ./ci_scripts/install-kubectl-test.sh && make docker-push-test && make deploy-test
-    build_script:
-      - echo "Build Complete"
+    deploy_script:
