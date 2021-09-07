@@ -110,4 +110,4 @@ for:
     before_deploy:
       - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
       # - bash ./ci_scripts/install-kubectl-test.sh && make docker-push-test && make deploy-test
-    build_script:
+    deploy_script:
