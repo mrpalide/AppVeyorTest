@@ -108,5 +108,6 @@ for:
       on:
         branch: develop
     deploy_script:
+      - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
       # - bash ./ci_scripts/install-kubectl-test.sh && make docker-push-test && make deploy-test
       - echo "Hi"
