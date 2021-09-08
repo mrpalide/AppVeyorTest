@@ -36,6 +36,7 @@ for:
       only:
         - job_name: MacOS
     install:
+      - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
       - brew cask install docker
       # - GO111MODULES=off; go mod vendor
       # - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.42.0
