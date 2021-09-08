@@ -3,18 +3,14 @@ version: "{build}"
 environment:
   matrix:
   # For regular jobs, such as push, pr and etc.
-  - job_name: Linux
-    appveyor_build_worker_image: ubuntu1804
-    GOARCH: amd64
-  # - job_name: MacOS
-  #   appveyor_build_worker_image: macos
-  #   GOARCH: amd64
+  # - job_name: Linux
+  #   appveyor_build_worker_image: ubuntu1804
+  - job_name: MacOS
+    appveyor_build_worker_image: macos
   # - job_name: Windows
   #   appveyor_build_worker_image: Visual Studio 2019
-  #   GOARCH: amd64
-  - job_name: LinuxDeploy
-    appveyor_build_worker_image: ubuntu1804
-    GOARCH: amd64
+  # - job_name: LinuxDeploy
+  #   appveyor_build_worker_image: ubuntu1804
 for:
   - # Linux
     skip_tags: true
@@ -34,48 +30,48 @@ for:
     after_build:
       - make e2e-clean
 
-  # - # MacOS
-  #   skip_tags: true
-  #   matrix:
-  #     only:
-  #       - job_name: MacOS
-  #   install:
-  #     - GO111MODULES=off; go mod vendor
-  #     - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.42.0
-  #   before_build:
-  #     - make e2e-build
-  #     - make e2e-run
-  #     - make install-shellcheck
-  #   build_script:
-  #     - make TEST_OPTS="-tags ci -cover -timeout=20m -race" check
-  #     - make e2e-test
-  #   after_build:
-  #     - make e2e-clean
+  - # MacOS
+    skip_tags: true
+    matrix:
+      only:
+        - job_name: MacOS
+    install:
+      - brew cask install docker
+      # - GO111MODULES=off; go mod vendor
+      # - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.42.0
+    # before_build:
+    #   - make e2e-build
+    #   - make e2e-run
+    #   - make install-shellcheck
+    build_script:
+      - docker --version
+    # after_build:
+    #   - make e2e-clean
 
-  # - # Windows
-  #   skip_tags: true
-  #   matrix:
-  #     only:
-  #       - job_name: Windows
+  - # Windows
+    skip_tags: true
+    matrix:
+      only:
+        - job_name: Windows
 
-  #   environment:
-  #     matrix:
-  #       - GOARCH: amd64
+    environment:
+      matrix:
+        - GOARCH: amd64
 
-  #   install:
-  #     - choco install make
-  #     - go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.42.0
-  #     - go mod vendor
+    install:
+      - choco install make
+      - go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.42.0
+      - go mod vendor
     
-  #   before_build:
-  #     - make e2e-build
-  #     - make e2e-run
-  #     - make install-shellcheck
-  #   build_script:
-  #     - make TEST_OPTS="-tags ci -cover -timeout=20m -race" check
-  #     - make e2e-test
-  #   after_build:
-  #     - make e2e-clean
+    before_build:
+      - make e2e-build
+      - make e2e-run
+      - make install-shellcheck
+    build_script:
+      - make TEST_OPTS="-tags ci -cover -timeout=20m -race" check
+      - make e2e-test
+    after_build:
+      - make e2e-clean
   
   - # Linux Deploy (Develop)
     build: off
