@@ -38,6 +38,7 @@ for:
     install:
       # - /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
       - brew install --cask docker
+      - export PATH="/usr/local/bin:$PATH"
       # - GO111MODULES=off; go mod vendor
       # - curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.42.0
     # before_build:
